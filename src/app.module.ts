@@ -12,7 +12,7 @@ import {ConfigModule, ConfigService} from "@nestjs/config";
 @Module({
   imports: [
       ConfigModule.forRoot({
-          envFilePath: './../.env',
+          envFilePath: '.env',
           isGlobal: true,
       }),
       UsersModule, GroupsModule, IdeasModule, AuctionsModule, AuthModule,

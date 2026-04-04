@@ -1,9 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import { CreateIdeaDto } from './dto/create-idea.dto';
 import { UpdateIdeaDto } from './dto/update-idea.dto';
+import {InjectRepository} from "@nestjs/typeorm";
+import {Idea} from "./entities/idea.entity";
+import {Repository} from "typeorm";
 
 @Injectable()
 export class IdeasService {
+  constructor(
+      @InjectRepository(Idea)
+      private readonly ideasRepository: Repository<Idea>,
+  ) {
+  }
+
   create(createIdeaDto: CreateIdeaDto) {
     return 'This action adds a new idea';
   }

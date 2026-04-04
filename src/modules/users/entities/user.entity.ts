@@ -14,7 +14,7 @@ export class User {
     name: string;
 
     @Column({ type: 'varchar', nullable: true, length: 150 })
-    second_name: null | string;
+    second_name: string | null;
 
     @Column({ type: 'varchar', nullable: false, length: 150 })
     email: string;
@@ -23,10 +23,10 @@ export class User {
     phone: number;
 
     @Column({ type: 'jsonb', nullable: true })
-    picture: null | string;
+    picture: string | null;
 
     @Column({ type: 'text', nullable: true })
-    description: null | string;
+    description: string | null;
 
     @Column({ type: 'bigint', unsigned: true, })
     group_id: number;
@@ -34,7 +34,7 @@ export class User {
     @ManyToOne(() => Group, (group) => group.users, { onDelete: "CASCADE" })
     @JoinColumn({ name: 'group_id' })
 
-    @Column({ type: 'enum', enum: Status, default: Status.Active })
+    @Column({ type: 'enum', enum: Status, default: Status.NoActive })
     status: Status;
 
     @CreateDateColumn()

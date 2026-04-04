@@ -5,7 +5,7 @@ build:
 up:
 	docker-compose up -d
 down:
-	docker-compose down
+	docker-compose stop
 
 reload:
 	make down
