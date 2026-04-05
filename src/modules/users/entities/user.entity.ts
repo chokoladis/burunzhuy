@@ -1,10 +1,11 @@
 import {Status} from "../../enums/status.enum";
 import {
-    Column, CreateDateColumn, JoinColumn, ManyToOne, PrimaryGeneratedColumn,
+    Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {Group} from "../../groups/entities/group.entity";
 
+@Entity()
 export class User {
 
     @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
@@ -19,7 +20,7 @@ export class User {
     @Column({ type: 'varchar', nullable: false, length: 150 })
     email: string;
 
-    @Column({ type: 'bigint', nullable: false, unsigned: true, length: 11 })
+    @Column({ type: 'varchar', nullable: false, unsigned: true, length: 11 })
     phone: number;
 
     @Column({ type: 'jsonb', nullable: true })
@@ -38,8 +39,8 @@ export class User {
     status: Status;
 
     @CreateDateColumn()
-    createdAt: Date;
+    created_at: Date;
 
     @UpdateDateColumn()
-    updatedAt: Date;
+    updated_at: Date;
 }

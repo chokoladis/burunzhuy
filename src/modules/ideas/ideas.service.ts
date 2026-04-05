@@ -1,24 +1,40 @@
-import {Inject, Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import { CreateIdeaDto } from './dto/create-idea.dto';
 import { UpdateIdeaDto } from './dto/update-idea.dto';
-import {InjectRepository} from "@nestjs/typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 import {Idea} from "./entities/idea.entity";
-import {Repository} from "typeorm";
+import { Repository} from "typeorm";
+import {User} from "../users/entities/user.entity";
+import {Status} from "../enums/status.enum";
 
 @Injectable()
 export class IdeasService {
   constructor(
       @InjectRepository(Idea)
       private readonly ideasRepository: Repository<Idea>,
+      @InjectRepository(User)
+      private readonly userRepository: Repository<User>,
   ) {
   }
 
-  create(createIdeaDto: CreateIdeaDto) {
-    return 'This action adds a new idea';
+  async create(createIdeaDto: CreateIdeaDto, user: User | null): Promise<Idea> {
+    // заглушка
+    if (!user) {
+      user = await this.userRepository.findOneById(1);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+    }
+    const newIdea = this.ideasRepository.create({
+      ...createIdeaDto,
+      status: Status.Active,
+      seller: user
+    });
+    return await this.ideasRepository.save(newIdea);
   }
 
-  findAll() {
-    return `This action returns all ideas`;
+  async findAll() : Promise<Idea[]> {
+    return await this.ideasRepository.find({ relations: ['seller'] });
   }
 
   findOne(id: number) {

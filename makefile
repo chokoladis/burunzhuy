@@ -11,9 +11,6 @@ reload:
 	make down
 	make up
 
-#db-start:
-	#docker exec -w /var/www/redmouse redmouse_php php 
-
 #db-restore:
 #	gunzip -c dumps/redmouse.sql.gz | docker exec -i redmouse_mysql mysql -u$(DB_USERNAME) -p$(DB_PASSWORD) $(DB_DATABASE);
 #db-export:

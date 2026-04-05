@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Req} from '@nestjs/common';
 import { IdeasService } from './ideas.service';
 import { CreateIdeaDto } from './dto/create-idea.dto';
 import { UpdateIdeaDto } from './dto/update-idea.dto';
@@ -8,8 +8,8 @@ export class IdeasController {
   constructor(private readonly ideasService: IdeasService) {}
 
   @Post()
-  create(@Body() createIdeaDto: CreateIdeaDto) {
-    return this.ideasService.create(createIdeaDto);
+  create(@Body() createIdeaDto: CreateIdeaDto, @Req() req) {
+    return this.ideasService.create(createIdeaDto, req.user);
   }
 
   @Get()

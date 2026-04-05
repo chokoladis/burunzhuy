@@ -1,8 +1,18 @@
 import {Status} from "../../enums/status.enum";
-import {Column, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
 import {Idea} from "../../ideas/entities/idea.entity";
 import {User} from "../../users/entities/user.entity";
 
+@Entity()
 export class Auction {
     @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
     id: number;
@@ -16,9 +26,10 @@ export class Auction {
     @Column({ type: 'enum', enum: Status, default: Status.Active })
     status: Status;
 
-    @Column({ type: 'datetime', default: Date.now })
+    @CreateDateColumn()
     created_at: Date;
-    @Column({ type: 'datetime' })
+
+    @UpdateDateColumn()
     ended_at: Date;
 
     @OneToOne(()=> Idea, { onDelete: 'CASCADE' })

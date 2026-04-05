@@ -1,7 +1,8 @@
 import {Status} from "../../enums/status.enum";
-import {Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "../../users/entities/user.entity";
 
+@Entity()
 export class Idea {
     @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
     id: number;
