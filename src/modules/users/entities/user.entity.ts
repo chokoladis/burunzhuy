@@ -17,14 +17,16 @@ export class User {
     @Column({ type: 'varchar', nullable: true, length: 150 })
     second_name: string | null;
 
+    // todo unique
     @Column({ type: 'varchar', nullable: false, length: 150 })
     email: string;
 
-    @Column({ type: 'varchar', nullable: false, unsigned: true, length: 11 })
-    phone: number;
+    // todo unique
+    @Column({ type: 'varchar', nullable: false, unsigned: true, length: 15 })
+    phone: string;
 
-    @Column({ type: 'jsonb', nullable: true })
-    picture: string | null;
+    // @Column({ type: 'jsonb', nullable: true })
+    // photo: string | null;
 
     @Column({ type: 'text', nullable: true })
     description: string | null;

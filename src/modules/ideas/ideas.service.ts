@@ -1,11 +1,11 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateIdeaDto } from './dto/create-idea.dto';
 import { UpdateIdeaDto } from './dto/update-idea.dto';
 import { InjectRepository } from "@nestjs/typeorm";
-import {Idea} from "./entities/idea.entity";
-import { Repository} from "typeorm";
-import {User} from "../users/entities/user.entity";
-import {Status} from "../enums/status.enum";
+import { Idea } from "./entities/idea.entity";
+import { Repository } from "typeorm";
+import { User } from "../users/entities/user.entity";
+import { Status } from "../enums/status.enum";
 
 @Injectable()
 export class IdeasService {
@@ -17,19 +17,19 @@ export class IdeasService {
   ) {
   }
 
-  async create(createIdeaDto: CreateIdeaDto, user: User | null): Promise<Idea> {
-    // заглушка
-    if (!user) {
-      user = await this.userRepository.findOneById(1);
-      if (!user) {
-        throw new NotFoundException('User not found');
-      }
-    }
+  async create(createIdeaDto: CreateIdeaDto): Promise<Idea> {
+    const user = await this.userRepository.findOneById(5); // заглушка до авторизации
+    if (!user)
+      throw new NotFoundException(`User not found`);
+
+    createIdeaDto.preview = JSON.stringify({ test: "data" }); // temp solution
+
     const newIdea = this.ideasRepository.create({
       ...createIdeaDto,
       status: Status.Active,
       seller: user
     });
+
     return await this.ideasRepository.save(newIdea);
   }
 

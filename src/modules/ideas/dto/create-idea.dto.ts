@@ -1,5 +1,4 @@
-import { IsEnum, IsJSON, IsNumber, IsOptional, IsPositive, IsString, MinLength} from "class-validator";
-import {Status} from "../../enums/status.enum";
+import { IsJSON, IsNumber, IsOptional, IsPositive, IsString, MinLength} from "class-validator";
 
 export class CreateIdeaDto {
     @IsString()
@@ -10,6 +9,7 @@ export class CreateIdeaDto {
     @MinLength(50)
     short_description: string;
 
+    @IsOptional() //remove later
     @IsJSON()
     preview: string;
 

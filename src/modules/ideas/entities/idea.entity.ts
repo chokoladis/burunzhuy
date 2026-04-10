@@ -25,7 +25,7 @@ export class Idea {
     @Column({ type: 'text' })
     full_description: string;
 
-    @Column({ type: 'jsonb' })
+    @Column({ type: 'jsonb', nullable: true })
     files: string[] | null;
 
     @Column({ type: 'numeric', nullable: true, unsigned: true })

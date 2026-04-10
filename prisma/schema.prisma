@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model auction {
+  id         BigInt              @id(map: "PK_9dc876c629273e71646cf6dfa67") @default(autoincrement())
+  idea_id    BigInt              @unique(map: "REL_167213bc23a1caf7b1f5cbeea0")
+  buyer_id   BigInt
+  status     auction_status_enum @default(Active)
+  created_at DateTime            @default(now()) @db.Timestamp(6)
+  ended_at   DateTime            @default(now()) @db.Timestamp(6)
+  idea       idea                @relation(fields: [idea_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_167213bc23a1caf7b1f5cbeea03")
+  user       user                @relation(fields: [buyer_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_a4ead1d1ab72b90a66e63fb5854")
+}
+
+model group {
+  id   BigInt @id(map: "PK_256aa0fda9b1de1a73ee0b7106b") @default(autoincrement())
+  name String @db.VarChar(50)
+  code String @db.VarChar(50)
+  user user[]
+}
+
+model idea {
+  id                BigInt           @id(map: "PK_5096f543c484b349f5234da9d97") @default(autoincrement())
+  seller_id         BigInt
+  title             String           @db.VarChar(70)
+  short_description String           @db.VarChar
+  preview           Json
+  status            idea_status_enum @default(Active)
+  full_description  String
+  files             Json
+  enter_cost        Decimal?         @db.Decimal
+  full_price        Decimal?         @db.Decimal
+  auction           auction?
+  user              user             @relation(fields: [seller_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_dddd4462adc790ca985360db6d4")
+}
+
+model user {
+  id          BigInt           @id(map: "PK_cace4a159ff9f2512dd42373760") @default(autoincrement())
+  name        String           @db.VarChar(50)
+  second_name String?          @db.VarChar(150)
+  email       String           @db.VarChar(150)
+  phone       String           @db.VarChar(11)
+  picture     Json?
+  description String?
+  group_id    BigInt
+  status      user_status_enum @default(NoActive)
+  created_at  DateTime         @default(now()) @db.Timestamp(6)
+  updated_at  DateTime         @default(now()) @db.Timestamp(6)
+  auction     auction[]
+  idea        idea[]
+  group       group            @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_3c29fba6fe013ec8724378ce7c9")
+}
+
+enum auction_status_enum {
+  NoActive
+  Active
+  Blocked
+}
+
+enum idea_status_enum {
+  NoActive
+  Active
+  Blocked
+}
+
+enum user_status_enum {
+  NoActive
+  Active
+  Blocked
+}

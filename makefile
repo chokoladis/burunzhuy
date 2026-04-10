@@ -11,7 +11,7 @@ reload:
 	make down
 	make up
 
-#db-restore:
-#	gunzip -c dumps/redmouse.sql.gz | docker exec -i redmouse_mysql mysql -u$(DB_USERNAME) -p$(DB_PASSWORD) $(DB_DATABASE);
-#db-export:
-#	docker exec redmouse_mysql mysqldump -u$(DB_USERNAME) -p$(DB_PASSWORD) $(DB_DATABASE) | gzip > dumps/redmouse_$(shell date +%F).sql.gz
+db-restore:
+	gunzip -c dumps/auction.sql.gz | docker exec -i burunzhuy_pgsql psql -u$(DB_USERNAME) -p$(DB_PASSWORD) $(DB_DATABASE);
+db-export:
+	docker exec burunzhuy_pgsql pg_dump -U$(DB_USERNAME) $(DB_DATABASE) | gzip > dumps/auction_$(shell date +%F).sql.gz
